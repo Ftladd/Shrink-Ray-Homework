@@ -4,6 +4,7 @@ import express, { Express } from 'express';
 import session from 'express-session';
 import ip from 'ip';
 import connectSqlite3 from 'connect-sqlite3';
+import { registerUser, logIn } from './controllers/Usercontroller';
 
 const app: Express = express();
 const { PORT, COOKIE_SECRET } = process.env;
@@ -23,13 +24,12 @@ app.use(
 
 app.use(express.json());
 
-app.get('/api/users/:userId/links', getLinks);
-app.post('/api/links', createLink);
-app.delete('/api/users/:userId/links/linkId', deleteLink);
-app.get('/:linkId', visitLink);
-app.post('/api/users', createUser);
+// app.get('/api/users/:userId/links', getLinks);
+// app.post('/api/links', createLink);
+// app.delete('/api/users/:userId/links/linkId', deleteLink);
+// app.get('/:linkId', visitLink);
+app.post('/api/users', registerUser);
 app.post('/api/login', logIn);
-
 
 app.listen(PORT, () => {
   console.log(`App is listening on port http://${ip.address()}:${PORT}`);
