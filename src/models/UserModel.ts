@@ -22,4 +22,15 @@ async function getUserByUsername(username: string): Promise<User | null> {
   return user;
 }
 
-export { addUser, getUserByUsername };
+async function getUserById(userId: string): Promise<User | null> {
+  const user = await userRepository
+    .createQueryBuilder('user')
+    .where('userId = userId', { userId })
+    .relation(User, 'links')
+    .select(['user.username', 'user.isAdmin', 'user.isPro'])
+    .getOne();
+
+  return user;
+}
+
+export { addUser, getUserByUsername, getUserById };
