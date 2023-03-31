@@ -1,7 +1,7 @@
 import { Request, Response } from 'express';
 import { parseDatabaseError } from '../utils/db-utils';
 import { getUserById } from '../models/UserModel';
-import { createNewLink, createLinkId } from '../models/LinkModel';
+import { createNewLink, createLinkId, updateLinkVisits, getLinkById } from '../models/LinkModel';
 
 async function shortenUrl(req: Request, res: Response): Promise<void> {
   const { originalUrl } = req.body as LinkRequest;
@@ -35,4 +35,15 @@ async function shortenUrl(req: Request, res: Response): Promise<void> {
   }
 }
 
-export { shortenUrl };
+async function getOriginalUrl(req: Request, res: Response): Promise<void> {
+  const { linkId } = req.params as LinkIdParam;
+  if (!linkId) {
+    res.sendStatus(404);
+    return;
+  }
+  const link = getLinkById(linkId);
+  updateLinkVisits(await link);
+  res.redirect(301, (await link).originalUrl);
+}
+
+export { shortenUrl, getOriginalUrl };

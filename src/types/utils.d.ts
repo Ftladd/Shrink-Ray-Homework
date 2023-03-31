@@ -12,3 +12,7 @@ type AuthRequest = {
 type LinkRequest = {
   originalUrl: string;
 };
+
+type LinkIdParam = {
+  linkId: string;
+};

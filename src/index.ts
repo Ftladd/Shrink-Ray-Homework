@@ -5,7 +5,7 @@ import session from 'express-session';
 import ip from 'ip';
 import connectSqlite3 from 'connect-sqlite3';
 import { registerUser, logIn } from './controllers/Usercontroller';
-import { shortenUrl } from './controllers/LinkController';
+import { shortenUrl, getOriginalUrl } from './controllers/LinkController';
 
 const app: Express = express();
 const { PORT, COOKIE_SECRET } = process.env;
@@ -28,7 +28,7 @@ app.use(express.json());
 // app.get('/api/users/:userId/links', getLinks);
 app.post('/api/links', shortenUrl);
 // app.delete('/api/users/:userId/links/linkId', deleteLink);
-// app.get('/:linkId', visitLink);
+app.get('/:linkId', getOriginalUrl);
 app.post('/api/users', registerUser);
 app.post('/api/login', logIn);
 
