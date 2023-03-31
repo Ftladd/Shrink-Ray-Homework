@@ -7,6 +7,9 @@ export class User {
   userId: string;
 
   @Column({ unique: true })
+  username: string;
+
+  @Column({ unique: true })
   passwordHash: string;
 
   @Column({ default: false })
