@@ -5,6 +5,7 @@ import session from 'express-session';
 import ip from 'ip';
 import connectSqlite3 from 'connect-sqlite3';
 import { registerUser, logIn } from './controllers/Usercontroller';
+import { createLinkId } from './models/LinkModel';
 
 const app: Express = express();
 const { PORT, COOKIE_SECRET } = process.env;
@@ -30,6 +31,8 @@ app.use(express.json());
 // app.get('/:linkId', visitLink);
 app.post('/api/users', registerUser);
 app.post('/api/login', logIn);
+
+createLinkId('https://youtube.com', 'myUserId');
 
 app.listen(PORT, () => {
   console.log(`App is listening on port http://${ip.address()}:${PORT}`);
