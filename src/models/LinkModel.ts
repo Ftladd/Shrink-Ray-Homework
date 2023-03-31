@@ -1,6 +1,7 @@
 import { createHash } from 'crypto';
 import { AppDataSource } from '../dataSource';
 import { Link } from '../entities/Link';
+import { User } from '../entities/User';
 
 const linkRepository = AppDataSource.getRepository(Link);
 
@@ -21,10 +22,18 @@ function createLinkId(originalUrl: string, userId: string): string {
   const urlHash = md5.digest('base64url');
   const linkId = urlHash.slice(9);
 
-  console.log(`MD5 Hash: ${urlHash}`);
-  console.log(`linkId: ${linkId}`);
-
   return linkId;
 }
 
-export { getLinkById, createLinkId };
+async function createNewLink(originalUrl: string, linkId: string, creator: User): Promise<Link> {
+  let newLink = new Link();
+  newLink.originalUrl = originalUrl;
+  newLink.linkId = linkId;
+  newLink.user = creator;
+
+  newLink = await linkRepository.save(newLink);
+
+  return newLink;
+}
+
+export { getLinkById, createNewLink, createLinkId };

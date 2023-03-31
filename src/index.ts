@@ -5,7 +5,7 @@ import session from 'express-session';
 import ip from 'ip';
 import connectSqlite3 from 'connect-sqlite3';
 import { registerUser, logIn } from './controllers/Usercontroller';
-import { createLinkId } from './models/LinkModel';
+import { shortenUrl } from './controllers/LinkController';
 
 const app: Express = express();
 const { PORT, COOKIE_SECRET } = process.env;
@@ -26,13 +26,11 @@ app.use(
 app.use(express.json());
 
 // app.get('/api/users/:userId/links', getLinks);
-// app.post('/api/links', createLink);
+app.post('/api/links', shortenUrl);
 // app.delete('/api/users/:userId/links/linkId', deleteLink);
 // app.get('/:linkId', visitLink);
 app.post('/api/users', registerUser);
 app.post('/api/login', logIn);
-
-createLinkId('https://youtube.com', 'myUserId');
 
 app.listen(PORT, () => {
   console.log(`App is listening on port http://${ip.address()}:${PORT}`);
