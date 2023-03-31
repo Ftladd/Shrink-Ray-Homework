@@ -17,7 +17,7 @@ async function getLinkById(linkId: string): Promise<Link | null> {
 
 function createLinkId(originalUrl: string, userId: string): string {
   const md5 = createHash('md5');
-  md5.update(originalUrl + userId);
+  md5.update(originalUrl.concat(userId.toString()));
   const urlHash = md5.digest('base64url');
   const linkId = urlHash.slice(9);
 
