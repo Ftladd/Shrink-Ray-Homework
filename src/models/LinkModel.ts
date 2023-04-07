@@ -45,4 +45,31 @@ async function updateLinkVisits(link: Link): Promise<Link> {
   return link;
 }
 
-export { getLinkById, createNewLink, createLinkId, updateLinkVisits };
+async function getLinksByUserId(userId: string): Promise<Link[]> {
+  const links = await linkRepository
+    .createQueryBuilder('link')
+    .where({ user: { userId } })
+    .leftJoinAndSelect('link.user', 'links')
+    .getMany();
+
+  return links;
+}
+
+async function getLinksByUserIdForOwnAccount(userId: string): Promise<Link[]> {
+  const links = await linkRepository
+    .createQueryBuilder('link')
+    .where({ user: { userId } })
+    .leftJoinAndSelect('link.user', 'links')
+    .getMany();
+
+  return links;
+}
+
+export {
+  getLinkById,
+  createNewLink,
+  createLinkId,
+  updateLinkVisits,
+  getLinksByUserId,
+  getLinksByUserIdForOwnAccount,
+};

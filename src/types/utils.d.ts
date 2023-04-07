@@ -16,3 +16,7 @@ type LinkRequest = {
 type LinkIdParam = {
   linkId: string;
 };
+
+type userIdParam = {
+  userId: string;
+};

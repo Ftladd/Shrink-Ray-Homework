@@ -46,4 +46,10 @@ async function getOriginalUrl(req: Request, res: Response): Promise<void> {
   res.redirect(301, (await link).originalUrl);
 }
 
+async function getOwnLinks(req: Request, res: Response): Promise<void> {
+  const { userId } = req.params as userIdParam;
+  if (req.session.isLoggedIn === false) {
+    res.sendStatus(403);
+  }
+}
 export { shortenUrl, getOriginalUrl };
